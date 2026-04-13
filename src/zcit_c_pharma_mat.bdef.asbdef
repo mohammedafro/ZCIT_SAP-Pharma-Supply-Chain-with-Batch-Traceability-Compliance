@@ -1,0 +1,26 @@
+projection;
+strict ( 2 );
+
+/* 1. Expose Parent Operations */
+define behavior for ZCIT_C_PHARMA_MAT alias Drug
+{
+  use create;
+  use update;
+  use delete;
+
+  /* Expose the ability to create Batches */
+  use association _Batches { create; }
+}
+
+/* 2. Expose Child Operations */
+define behavior for ZCIT_C_PHARMA_BAT alias Batch
+{
+  use update;
+  use delete;
+
+  /* Expose the custom FDA Action Buttons */
+  use action releaseBatch;
+  use action rejectBatch;
+
+  use association _Drug;
+}

@@ -1,0 +1,7 @@
+@EndUserText.label: 'Service Def: Pharma Traceability'
+define service ZCIT_UI_PHARMA {
+  expose ZCIT_C_PHARMA_MAT     as DrugMaterial;
+  expose ZCIT_C_PHARMA_BAT     as ProductionBatch;
+  expose ZCIT_I_PHARMA_STAT_VH as BatchStatusVH;
+  expose ZCIT_I_PHARMA_UOM_VH  as UnitOfMeasureVH;
+}

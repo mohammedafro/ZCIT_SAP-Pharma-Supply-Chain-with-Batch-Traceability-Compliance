@@ -1,0 +1,71 @@
+unmanaged implementation in class zbp_cit_i_pharma_mat unique;
+strict ( 2 );
+
+/* ====================================================================
+   1. BEHAVIOR FOR THE PARENT (DRUG MATERIAL)
+   ==================================================================== */
+define behavior for ZCIT_I_PHARMA_MAT alias Drug
+lock master
+authorization master ( instance )
+{
+  create;
+  update;
+  delete;
+
+  association _Batches { create; }
+
+  field ( readonly : update ) MaterialId;
+
+  mapping for zcit_pharma_mat
+  {
+    MaterialId         = material_id;
+    DrugName           = drug_name;
+    ActiveIngredient   = active_ingredient;
+    DrugCategory       = drug_category;
+    ShelfLifeDays      = shelf_life_days;
+    CreatedBy          = created_by;
+    CreatedAt          = created_at;
+    LastChangedBy      = last_changed_by;
+    LastChangedAt      = last_changed_at;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}
+
+/* ====================================================================
+   2. BEHAVIOR FOR THE CHILD (BATCH TRACEABILITY)
+   ==================================================================== */
+define behavior for ZCIT_I_PHARMA_BAT alias Batch
+lock dependent by _Drug
+authorization dependent by _Drug
+{
+  update;
+  delete;
+
+  /* THE FIX: Tell RAP not to crash when looking for action authorizations */
+  action ( authorization : none ) releaseBatch result [1] $self;
+  action ( authorization : none ) rejectBatch result [1] $self;
+
+  /* THE FIX: Lock down the UI so it doesn't send conflicting dates! */
+  field ( readonly ) MaterialId;
+  field ( readonly ) BatchId;
+  field ( readonly ) ExpiryDate;
+
+  association _Drug;
+
+  mapping for zcit_pharma_bat
+  {
+    MaterialId         = material_id;
+    BatchId            = batch_id;
+    ManufacturingDate  = manufacturing_date;
+    ExpiryDate         = expiry_date;
+    BatchStatus        = batch_status;
+    ProductionPlant    = production_plant;
+    Quantity           = quantity;
+    UnitOfMeasure      = unit_of_measure;
+    CreatedBy          = created_by;
+    CreatedAt          = created_at;
+    LastChangedBy      = last_changed_by;
+    LastChangedAt      = last_changed_at;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}

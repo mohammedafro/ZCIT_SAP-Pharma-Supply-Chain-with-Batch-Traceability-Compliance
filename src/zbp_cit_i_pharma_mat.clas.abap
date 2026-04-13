@@ -1,0 +1,5 @@
+CLASS zbp_cit_i_pharma_mat DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zcit_i_pharma_mat.
+ENDCLASS.
+
+CLASS zbp_cit_i_pharma_mat IMPLEMENTATION.
+ENDCLASS.

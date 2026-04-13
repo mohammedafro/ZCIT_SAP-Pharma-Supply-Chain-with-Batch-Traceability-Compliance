@@ -1,0 +1,65 @@
+@Metadata.layer: #CORE
+
+@UI: {
+  headerInfo: { typeName: 'Production Batch',
+                typeNamePlural: 'Production Batches',
+                title: { type: #STANDARD, value: 'BatchId' } } }
+                
+annotate view ZCIT_C_PHARMA_BAT with
+{
+  @UI.facet: [ { id: 'BatchDetails', 
+                 purpose: #STANDARD, 
+                 type: #IDENTIFICATION_REFERENCE, 
+                 label: 'Batch Information', 
+                 position: 10 } ]
+
+  @UI.hidden: true
+  MaterialId;
+
+  @UI: { lineItem:       [ { position: 10 } ],
+         identification: [ { position: 10 } ] }
+  BatchId;
+
+  @UI: { lineItem:       [ { position: 20 } ],
+         identification: [ { position: 20 } ] }
+  ManufacturingDate;
+
+  /* Expiry Date is auto-calculated by our ABAP engine! */
+  @UI: { lineItem:       [ { position: 30 } ],
+         identification: [ { position: 30 } ] }
+  ExpiryDate;
+
+  /* FDA COMPLIANCE: Custom Action Buttons & Criticality Colors */
+  @UI: { lineItem:       [ { position: 40, criticality: 'StatusCriticality' },
+                           { type: #FOR_ACTION, dataAction: 'releaseBatch', label: 'Release to Market', position: 10 },
+                           { type: #FOR_ACTION, dataAction: 'rejectBatch',  label: 'Reject (Fail QA)',  position: 20 } ],
+         identification: [ { position: 40, criticality: 'StatusCriticality' },
+                           { type: #FOR_ACTION, dataAction: 'releaseBatch', label: 'Release to Market', position: 10 },
+                           { type: #FOR_ACTION, dataAction: 'rejectBatch',  label: 'Reject (Fail QA)',  position: 20 } ] }
+  BatchStatus;
+
+  @UI: { lineItem:       [ { position: 50 } ],
+         identification: [ { position: 50 } ] }
+  ProductionPlant;
+
+  @UI: { lineItem:       [ { position: 60 } ],
+         identification: [ { position: 60 } ] }
+  Quantity;
+
+  @UI: { lineItem:       [ { position: 70 } ],
+         identification: [ { position: 70 } ] }
+  UnitOfMeasure;
+
+  @UI.hidden: true
+  StatusCriticality;
+  @UI.hidden: true
+  CreatedBy;
+  @UI.hidden: true
+  CreatedAt;
+  @UI.hidden: true
+  LastChangedBy;
+  @UI.hidden: true
+  LastChangedAt;
+  @UI.hidden: true
+  LocalLastChangedAt;
+}
